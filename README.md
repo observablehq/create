@@ -2,7 +2,7 @@
 
 ## Development
 
-To test this, go to a temporary directory, such as ~/tmp/observable-create-test, and run the following:
+To test this, go to a temporary directory, such as `~/tmp/observablehq-create-test`, and run the following:
 
 ```
 $ npm install path/to/create/repo
