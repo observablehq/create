@@ -49,37 +49,8 @@ async function init() {
     devInstructions: devDirections.map((l) => `$ ${l}`).join("\n"),
   };
 
-  function walkStep(stepPath: string) {
-    let templatePath = path.join(templateDir, stepPath);
-    let outputPath = path.join(root, stepPath);
-
-    let templateStat = fs.statSync(templatePath);
-    if (templateStat.isDirectory()) {
-      try {
-        fs.mkdirSync(outputPath);
-      } catch {
-        // that's ok
-      }
-      for (let entry of fs.readdirSync(templatePath)) {
-        walkStep(path.join(stepPath, entry));
-      }
-    } else {
-      if (templatePath.endsWith(".tmpl")) {
-        outputPath = outputPath.replace(/\.tmpl$/, "");
-        let contents = fs.readFileSync(templatePath, "utf8");
-        contents = contents.replaceAll(/\{\{\s*(\w+)\s*\}\}/g, (_, key) => {
-          if (key in context) return context[key as keyof typeof context];
-          throw new Error(`no template variable ${key}`);
-        });
-        fs.writeFileSync(outputPath, contents);
-      } else {
-        fs.copyFileSync(templatePath, outputPath);
-      }
-    }
-  }
-
   console.log(`Setting up project in ${root}...`);
-  walkStep(".");
+  recursiveCopyTemplate(templateDir, root, context);
 
   console.log(`All done! To get started, run:\n`);
   if (root !== process.cwd()) {
@@ -90,12 +61,52 @@ async function init() {
   }
 }
 
+function recursiveCopyTemplate(
+  inputRoot: string,
+  outputRoot: string,
+  context: Record<string, string>,
+  stepPath: string = "."
+) {
+  let templatePath = path.join(inputRoot, stepPath);
+  let outputPath = path.join(outputRoot, stepPath);
+
+  let templateStat = fs.statSync(templatePath);
+  if (templateStat.isDirectory()) {
+    try {
+      fs.mkdirSync(outputPath);
+    } catch {
+      // that's ok
+    }
+    for (let entry of fs.readdirSync(templatePath)) {
+      recursiveCopyTemplate(
+        inputRoot,
+        outputRoot,
+        context,
+        path.join(stepPath, entry)
+      );
+    }
+  } else {
+    if (templatePath.endsWith(".tmpl")) {
+      outputPath = outputPath.replace(/\.tmpl$/, "");
+      let contents = fs.readFileSync(templatePath, "utf8");
+      contents = contents.replaceAll(/\{\{\s*(\w+)\s*\}\}/g, (_, key) => {
+        let val = context[key];
+        if (val) return val;
+        throw new Error(`no template variable ${key}`);
+      });
+      fs.writeFileSync(outputPath, contents);
+    } else {
+      fs.copyFileSync(templatePath, outputPath);
+    }
+  }
+}
+
 function pkgFromUserAgent(userAgent: string | undefined): null | {
   name: string;
   version: string | undefined;
 } {
   if (!userAgent) return null;
-  const pkgSpec = userAgent.split(" ")[0]; // userAgent is non-empty, so this is always defined
+  const pkgSpec = userAgent.split(" ")[0]!; // userAgent is non-empty, so this is always defined
   if (!pkgSpec) return null;
   const [name, version] = pkgSpec.split("/");
   if (!name || !version) return null;
