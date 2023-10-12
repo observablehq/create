@@ -3,19 +3,17 @@
 import path from "node:path";
 import fs from "node:fs";
 import { fileURLToPath } from "node:url";
-import minimist from "minimist";
+import { parseArgs } from "node:util";
 import prompts, { type PromptObject } from "prompts";
 
 async function init() {
-  const argv = minimist<{
-    t?: string;
-    template?: string;
-  }>(process.argv.slice(2), {
-    // Without this, purely-numeric arguments are interpreted as numbers
-    string: ["_"],
-  });
+  const args = parseArgs({ allowPositionals: true, strict: true });
+  if (args.positionals.length > 1) {
+    console.error("Too many positional arguments. Expected 0 or 1.");
+    process.exit(1);
+  }
 
-  const targetDir = argv._[0];
+  const targetDir = args.positionals[0];
 
   let results = await prompts<"projectName">([
     ...(targetDir
@@ -104,4 +102,4 @@ function pkgFromUserAgent(userAgent: string | undefined): null | {
   return { name, version };
 }
 
-init().catch((e) => console.error(e));
+init().catch((e) => console.error(e.message));
