@@ -2,7 +2,7 @@
 
 ## Development
 
-To test, run build in the `objservable-create` project directory:
+To test, run build in the `objservablehq-create` project directory:
 
 ```
 $ npm run build
