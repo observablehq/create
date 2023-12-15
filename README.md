@@ -5,14 +5,7 @@
 
 This tool provides an easy way to setup an [Obserable project](https://cli.observablehq.com/).  To use:
 
-with [npx](https://docs.npmjs.com/cli/v10/commands/npx):
-
-```
-$ npx observablehq-create <app-name>
-```
-
 with [npm](https://docs.npmjs.com/cli/v10/commands/npm-init):
-
 
 ```
 $ npm init observablehq-create <app-name>
