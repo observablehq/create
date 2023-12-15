@@ -26,7 +26,7 @@ $ yarn observablehq-create <app-name>
 
 ## Development
 
-To test, run build in the `objservablehq-create` project directory:
+To test, run build in the `observablehq-create` project directory:
 
 ```
 $ npm install
