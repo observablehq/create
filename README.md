@@ -3,7 +3,7 @@
 > [!WARNING]
 > The install instructions are speculative and not yet tested
 
-This tool provides an easy way to setup a [Obserable Porject](https://cli.observablehq.com/).  To use:
+This tool provides an easy way to setup an [Obserable project](https://cli.observablehq.com/).  To use:
 
 with [npx](https://docs.npmjs.com/cli/v10/commands/npx):
 
