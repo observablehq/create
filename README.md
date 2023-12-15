@@ -1,6 +1,8 @@
 # @observablehq/create
 
-This tool provides an easy way to setup an [Obserable Command Line Project](https://cli.observablehq.com/).  To use:
+## The install instructions are speculative and not yet tested
+
+This tool provides an easy way to setup a [Obserable Porject](https://cli.observablehq.com/).  To use:
 
 with [npx](https://docs.npmjs.com/cli/v10/commands/npx):
 
@@ -19,9 +21,8 @@ $ npm init observablehq-create <app-name>
 with [yarn](https://yarnpkg.com):
 
 ```
-$ yarn observablehq-create
+$ yarn observablehq-create <app-name>
 ```
-
 
 ## Development
 
