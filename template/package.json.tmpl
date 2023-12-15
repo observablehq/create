@@ -3,9 +3,9 @@
   "type": "module",
   "private": true,
   "scripts": {
-    "dev": "observable preview",
+    "clean": "rm -rf docs/.observablehq/cache",
     "build": "rm -rf dist && observable build",
-    "clean": "rm -rf docs/.observablehq/cache"
+    "dev": "observable preview"
   },
   "dependencies": {
     "@observablehq/cli": "https://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@github.com/observablehq/cli#main"
