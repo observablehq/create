@@ -8,13 +8,13 @@ This tool provides an easy way to setup an [Obserable project](https://cli.obser
 with [npm](https://docs.npmjs.com/cli/v10/commands/npm-init):
 
 ```
-$ npm init observablehq-create <app-name>
+$ npm init @observablehq
 ```
 
 with [yarn](https://yarnpkg.com):
 
 ```
-$ yarn observablehq-create <app-name>
+$ yarn create @observablehq
 ```
 
 ## Development
