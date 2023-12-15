@@ -7,7 +7,6 @@ This tool provides an easy way to setup a [Obserable Porject](https://cli.observ
 
 with [npx](https://docs.npmjs.com/cli/v10/commands/npx):
 
-
 ```
 $ npx observablehq-create <app-name>
 ```
