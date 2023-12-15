@@ -71,7 +71,7 @@ async function init() {
   }
 }
 
-function validateProjectName(projectName) {
+function validateProjectName(projectName: string): string | boolean {
   if (fs.existsSync(projectName)) {
     return `Project directory already exists`;
   }
@@ -81,13 +81,13 @@ function validateProjectName(projectName) {
   }
 
   if (!/^([^0-9\W]\w*)$/.test(projectName)) {
-    return "Project name must contain alphanumerics or underscore with no leading digits.";
+    return "Project name must contain only alphanumerics or underscore with no leading digits.";
   }
 
   return true;
 }
 
-function validateProjectTitle(projectTitle) {
+function validateProjectTitle(projectTitle: string): string | boolean {
   if (projectTitle.length === 0) {
     return "Project title must be at least 1 character long.";
   }
