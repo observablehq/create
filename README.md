@@ -1,6 +1,9 @@
 # @observablehq/create
 
-## The install instructions are speculative and not yet tested
+[!WARNING]
+The install instructions are speculative and not yet tested
+
+<warn>The install instructions are speculative and not yet tested</warn>
 
 This tool provides an easy way to setup a [Obserable Porject](https://cli.observablehq.com/).  To use:
 
