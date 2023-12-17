@@ -14,7 +14,7 @@ $ npm init @observablehq
 with [yarn](https://yarnpkg.com):
 
 ```
-$ yarn create @observablehq
+$ yarn create @observablehq [path/to/project-name]
 ```
 
 ## Development
