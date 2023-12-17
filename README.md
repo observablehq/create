@@ -8,7 +8,7 @@ This tool provides an easy way to setup an [Obserable project](https://cli.obser
 with [npm](https://docs.npmjs.com/cli/v10/commands/npm-init):
 
 ```
-$ npm init @observablehq
+$ npm init @observablehq [path/to/project-name]
 ```
 
 with [yarn](https://yarnpkg.com):
@@ -20,13 +20,6 @@ $ yarn create @observablehq [path/to/project-name]
 ## Development
 
 To test, run build in the `observablehq-create` project directory:
-
-```
-$ npm install
-$ npm run build
-```
-
-or
 
 ```
 $ yarn
