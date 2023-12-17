@@ -29,13 +29,14 @@ $ yarn build
 Go to a temporary directory, such as `~/tmp/observablehq-create-test`, and run the following:
 
 ```
-$ npm install path/to/create/repo
-$ npx observablehq-create
+$ yarn add path/to/create/repo
+$ yarn observablehq-create
 ```
 
 or
 
 ```
-$ yarn add path/to/create/repo
-$ yarn observablehq-create
+$ npm install path/to/create/repo
+$ npx observablehq-create
 ```
+
