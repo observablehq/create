@@ -13,11 +13,17 @@ async function init() {
     process.exit(1);
   }
 
-  const projectNameArg = args.positionals[0];
-  if (projectNameArg !== undefined) {
-    const result = validateProjectName(projectNameArg);
+  const {
+    dir: projectDir,
+    name: projectNameArg
+  } = path.parse(args.positionals[0] ?? "");
+
+  if (projectNameArg !== "") {
+    const result = validateProjectName(projectDir, projectNameArg);
     if (result !== true) {
-      console.error(`Invalid project name "${projectNameArg}": ${result}".`);
+      console.error(
+        `Invalid project "${path.join(projectDir, projectNameArg)}": ${result}`
+      );
       process.exit(1);
     }
   }
@@ -28,7 +34,7 @@ async function init() {
       name: "projectName",
       message: "Project name:",
       initial: projectNameArg,
-      validate: validateProjectName,
+      validate: name => validateProjectName(projectDir, name),
     } satisfies PromptObject<"projectName">,
     {
       type: "text",
@@ -39,7 +45,7 @@ async function init() {
     } satisfies PromptObject<"projectTitle">,
   ]);
 
-  const root = results.projectName;
+  const root = path.join(projectDir, results.projectName);
   const pkgInfo = pkgFromUserAgent(process.env["npm_config_user_agent"]);
   const pkgManager = pkgInfo ? pkgInfo.name : "npm";
 
@@ -54,8 +60,8 @@ async function init() {
       : [`${pkgManager} install`, `${pkgManager} run dev`];
 
   const context = {
-    projectName: root,
-    projectTitle: results.projectTitle,
+    projectDir,
+    ...results,
     devInstructions: devDirections.map((l) => `$ ${l}`).join("\n"),
   };
 
@@ -71,9 +77,13 @@ async function init() {
   }
 }
 
-function validateProjectName(projectName: string): string | boolean {
-  if (fs.existsSync(projectName)) {
-    return `Project directory already exists`;
+function validateProjectName(projectDir: string, projectName: string): string | boolean {
+  if (!fs.existsSync(path.normalize(projectDir))) {
+    return `The parent directory of the project does not exist.`;
+  }
+
+  if (fs.existsSync(path.join(projectDir, projectName))) {
+    return `Project already exists.`;
   }
 
   if (projectName.length === 0) {
