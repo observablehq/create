@@ -13,24 +13,39 @@ async function init() {
     process.exit(1);
   }
 
-  const targetDir = args.positionals[0];
+  const {
+    dir: projectDir,
+    name: projectNameArg
+  } = path.parse(args.positionals[0] ?? "");
 
-  let results = await prompts<"projectName">([
-    ...(targetDir
-      ? []
-      : [
-          {
-            type: "text",
-            name: "projectName",
-            message: "Project name:",
-            validate: (projectName) =>
-              projectName.length > 0 && !projectName.includes("/"),
-          } satisfies PromptObject<"projectName">,
-        ]),
+  if (projectNameArg !== "") {
+    const result = validateProjectName(projectDir, projectNameArg);
+    if (result !== true) {
+      console.error(
+        `Invalid project "${path.join(projectDir, projectNameArg)}": ${result}`
+      );
+      process.exit(1);
+    }
+  }
+
+  const results = await prompts<"projectName" | "projectTitle">([
+    {
+      type: "text",
+      name: "projectName",
+      message: "Project name:",
+      initial: projectNameArg,
+      validate: name => validateProjectName(projectDir, name),
+    } satisfies PromptObject<"projectName">,
+    {
+      type: "text",
+      name: "projectTitle",
+      message: "Formatted project title:",
+      initial: toTitleCase,
+      validate: validateProjectTitle,
+    } satisfies PromptObject<"projectTitle">,
   ]);
 
-  let root = targetDir ?? results.projectName;
-
+  const root = path.join(projectDir, results.projectName);
   const pkgInfo = pkgFromUserAgent(process.env["npm_config_user_agent"]);
   const pkgManager = pkgInfo ? pkgInfo.name : "npm";
 
@@ -44,8 +59,9 @@ async function init() {
       ? ["yarn", "yarn dev"]
       : [`${pkgManager} install`, `${pkgManager} run dev`];
 
-  let context = {
-    projectName: root,
+  const context = {
+    projectDir,
+    ...results,
     devInstructions: devDirections.map((l) => `$ ${l}`).join("\n"),
   };
 
@@ -59,6 +75,46 @@ async function init() {
   for (const line of devDirections) {
     console.log(`  ${line}`);
   }
+}
+
+function validateProjectName(projectDir: string, projectName: string): string | boolean {
+  if (!fs.existsSync(path.normalize(projectDir))) {
+    return `The parent directory of the project does not exist.`;
+  }
+
+  if (fs.existsSync(path.join(projectDir, projectName))) {
+    return `Project already exists.`;
+  }
+
+  if (projectName.length === 0) {
+    return "Project name must be at least 1 character long.";
+  }
+
+  if (!/^([^0-9\W]\w*)$/.test(projectName)) {
+    return "Project name must contain only alphanumerics or underscore with no leading digits.";
+  }
+
+  return true;
+}
+
+function validateProjectTitle(projectTitle: string): string | boolean {
+  if (projectTitle.length === 0) {
+    return "Project title must be at least 1 character long.";
+  }
+
+  if (/[\x00-\x1F]/.test(projectTitle)) {
+    return "Project title may not contain control characters.";
+  }
+
+  return true;
+}
+
+function toTitleCase(str) {
+  return str.toLowerCase()
+    .replace(/_/g, ' ')
+    .split(/\s+/)
+    .map((word) => word[0].toUpperCase() + word.slice(1))
+    .join(' ');
 }
 
 function recursiveCopyTemplate(
