@@ -1,0 +1,108 @@
+<link rel="preload" as="style" href="styles/dashboard.css">
+<link rel="stylesheet" type="text/css" href="styles/dashboard.css">
+
+# Plot
+
+```js
+import {BigNumber} from "./components/bigNumber.js";
+// import {DailyPlot, today, start} from "./components/dailyPlot.js";
+import {resize} from "./components/resize.js";
+```
+
+```js
+const pages = [];
+const pageviews = [];
+const downloads = [];
+const issues = [];
+const stars = [];
+```
+
+```js
+const lastMonth = d3.utcDay.offset(today, -28);
+const lastWeek = d3.utcDay.offset(today, -7);
+const x = {domain: [start, today]};
+```
+
+```js
+const burndown = issues
+  .filter((d) => !d.pull_request)
+  .flatMap((issue) => {
+    const start = issue.created_at;
+    const end = issue.closed_at ?? today;
+    const dates = d3.utcDay.range(
+      d3.utcDay.offset(d3.utcDay.floor(start), -1),
+      d3.utcDay.offset(d3.utcDay.floor(end), 2)
+    );
+    return dates.map((date, i) => {
+      return {
+        start: start,
+        value: i === 0 || i === dates.length - 1 ? 0 : 1,
+        date
+      };
+    });
+  });
+```
+
+<div class="grid grid-cols-4" style="grid-auto-rows: 86px;">
+  ${BigNumber(stars.length, {title: "GitHub stars", trend: stars.filter((d) => d.starred_at >= lastWeek).length, trendFormat: "+"})}
+  ${BigNumber(pageviews[0].value, {title: "Daily pageviews", trend: (pageviews[0].value - pageviews[7].value) / pageviews[7].value})}
+  ${BigNumber(downloads[0].value, {title: "Daily npm downloads", trend: (downloads[0].value - downloads[7].value) / downloads[7].value})}
+  ${BigNumber(d3.sum(downloads, (d) => d.value), {title: "Total npm downloads"})}
+</div>
+
+<div class="grid grid-cols-1" style="grid-auto-rows: calc(200px + 2rem);">
+  ${resize((width) => DailyPlot(downloads, {width, title: "Daily npm downloads", label: "downloads", domain: [0, 6000]}))}
+  ${resize((width) => DailyPlot(pageviews, {width, title: "Daily pageviews", label: "pageviews", domain: [0, 6000]}))}
+</div>
+
+<div class="grid grid-cols-4" style="grid-auto-rows: 86px;">
+  ${BigNumber(issues.filter((d) => !d.pull_request && d.state === "open").length, {title: "Open issues", href: "https://github.com/observablehq/plot/issues"})}
+  ${BigNumber(issues.filter((d) => !d.pull_request && d.created_at >= lastMonth).length, {title: "Opened issues, 28d"})}
+  ${BigNumber(issues.filter((d) => !d.pull_request && d.closed_at >= lastMonth).length, {title: "Closed issues, 28d"})}
+  ${BigNumber(issues.filter((d) => d.pull_request && d.state === "open" && !d.draft).length, {title: "Open PRs", href: "https://github.com/observablehq/plot/pulls?q=is%3Apr+is%3Aopen+draft%3Afalse"})}
+</div>
+
+<div class="grid grid-cols-1" style="grid-auto-rows: calc(200px + 2rem);">
+  ${resize((width) => Plot.plot({
+    width,
+    height: 200,
+    marginRight: 60,
+    round: true,
+    x,
+    y: {axis: "right", grid: true, label: "↑ Open issues"},
+    marks: [
+      Plot.areaY(burndown, Plot.filter((d) => d.date >= start, {x: "date", y: "value", curve: "step-after", fill: "start"})),
+      Plot.ruleY([0])
+    ]
+  }))}
+</div>
+
+<div class="grid grid-cols-2" style="grid-auto-rows: 276px;">
+  <div style="padding: 0;">${
+    Inputs.table(pages, {
+      header: {
+        value: "7d pageviews"
+      },
+      format: {
+        path: (path) => html`<a href=https://observablehq.com/${path} target=_blank>/${path}</a>`
+      }
+    })
+  }</div>
+  <div style="padding: 0;">${
+    Inputs.table(
+      issues
+        .filter((d) => d.state === "open" && d.reactions.total_count > 5)
+        .sort((a, b) => b.reactions.total_count - a.reactions.total_count)
+        .map((d) => ({
+          "title": {title: d.title, number: d.number},
+          "reactions": d.reactions.total_count,
+          "days old": d3.utcDay.count(d.created_at, today)
+        })),
+      {
+        format: {
+          title: (d) => html`<a href=https://github.com/observablehq/plot/issues/${d.number} target=_blank>${d.title}</a>`
+        }
+      }
+    )
+  }</div>
+</div>
