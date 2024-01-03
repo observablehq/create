@@ -1,6 +1,6 @@
 {
   "name": "@observablehq/create",
-  "version": "0.0.1",
+  "version": "0.0.4",
   "repository": {
     "type": "git",
     "url": "git+https://github.com/observablehq/create.git"
