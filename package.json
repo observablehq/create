@@ -1,9 +1,15 @@
 {
   "name": "@observablehq/create",
   "version": "0.0.1",
-  "repository": "https://github.com/observablehq/create",
   "license": "ISC",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/observablehq/create.git"
+  },
   "type": "module",
+  "publishConfig": {
+    "registry": "https://npm.pkg.github.com"
+  },
   "main": "./dist/main.cjs",
   "bin": {
     "observablehq-create": "dist/main.cjs"
@@ -13,7 +19,7 @@
     "prepublishOnly": "npm run build"
   },
   "files": [
-    "template-*",
+    "template/**/*.tmpl",
     "dist"
   ],
   "devDependencies": {
