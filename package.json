@@ -12,7 +12,7 @@
   },
   "main": "./dist/main.cjs",
   "bin": {
-    "observablehq-create": "dist/main.cjs"
+    "create": "dist/main.cjs"
   },
   "scripts": {
     "build": "unbuild",
