@@ -42,7 +42,7 @@ async function init() {
   ]);
   const root = path.join(projectDir, results.projectName);
   const pkgInfo = pkgFromUserAgent(process.env["npm_config_user_agent"]);
-  const pkgManager = pkgInfo ? pkgInfo.name : "npm";
+  const pkgManager = pkgInfo ? pkgInfo.name : "yarn";
   const templateDir = path.resolve(
     fileURLToPath(import.meta.url),
     "../../template"
@@ -74,8 +74,8 @@ function validateProjectName(projectDir, projectName) {
   if (projectName.length === 0) {
     return "Project name must be at least 1 character long.";
   }
-  if (!/^([^0-9\W]\w*)$/.test(projectName)) {
-    return "Project name must contain only alphanumerics or underscore with no leading digits.";
+  if (!/^([^0-9\W][\w-]*)$/.test(projectName)) {
+    return "Project name must contain only alphanumerics, dash or underscore with no leading digits.";
   }
   return true;
 }
