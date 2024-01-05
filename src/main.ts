@@ -90,8 +90,8 @@ function validateProjectName(projectDir: string, projectName: string): string | 
     return "Project name must be at least 1 character long.";
   }
 
-  if (!/^([^0-9\W]\w*)$/.test(projectName)) {
-    return "Project name must contain only alphanumerics or underscore with no leading digits.";
+  if (!/^([^0-9\W][\w-]*)$/.test(projectName)) {
+    return "Project name must contain only alphanumerics, dash or underscore with no leading digits.";
   }
 
   return true;
