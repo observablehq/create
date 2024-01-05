@@ -47,7 +47,7 @@ async function init() {
 
   const root = path.join(projectDir, results.projectName);
   const pkgInfo = pkgFromUserAgent(process.env["npm_config_user_agent"]);
-  const pkgManager = pkgInfo ? pkgInfo.name : "npm";
+  const pkgManager = pkgInfo ? pkgInfo.name : "yarn";
 
   const templateDir = path.resolve(
     fileURLToPath(import.meta.url),
