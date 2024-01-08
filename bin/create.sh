@@ -15,4 +15,3 @@ elif command -v npm &> /dev/null; then
     npm install $githubUrl --prefix $temp_dir
     npm exec observablehq-create --prefix $temp_dir
 fi
-
