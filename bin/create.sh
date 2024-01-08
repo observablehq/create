@@ -5,11 +5,9 @@ githubUrl="https://${1:+$1@}github.com/observablehq/create"
 
 # try yarn first, if not use npm
 if command -v yarn &> /dev/null; then
-    echo yarn
     yarn global add $githubUrl
-    $(yarn global bin)/observablehq-create
+    node $(yarn global bin)/observablehq-create
 elif command -v npm &> /dev/null; then
-    echo npm
     # creat temp directory
     temp_dir=$(mktemp -d)
     # trap to ensure cleanup even if the script exits unexpectedly
