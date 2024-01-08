@@ -4,7 +4,7 @@
 githubUrl="https://${1:+$1@}github.com/observablehq/create"
 
 # try yarn first, if not use npm
-if command -v yarn &> /dev/null; then
+if !command -v yarn &> /dev/null; then
     yarn global add $githubUrl
     node $(yarn global bin)/observablehq-create
 elif command -v npm &> /dev/null; then
