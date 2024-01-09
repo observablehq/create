@@ -109,7 +109,7 @@ function validateProjectTitle(projectTitle: string): string | boolean {
   return true;
 }
 
-function toTitleCase(str: string) {
+function toTitleCase(str: string): string {
   return str.toLowerCase()
     .replace(/_/g, ' ')
     .split(/\s+/)
