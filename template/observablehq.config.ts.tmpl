@@ -1,0 +1,21 @@
+export default {
+  // Config options documentation: https://cli.observablehq.com/config
+  title: "{{ projectTitle }}",
+  pages: [
+    {name: "Homepage", path: "/"},
+    {
+      name: "Examples",
+      pages: [
+        {name: "Report", path: "/example-report"},
+        {name: "Dashboard", path: "/example-dashboard"},
+      ]
+    }
+  ],
+  root: "docs", // path to the source root for preview
+  output: "dist", // path to the output root for build
+  // theme: ["auto"],
+  // style: "docs/style.css", // path (relative to the root) to a custom stylesheet
+  // pager: true, // previous & next footer links 
+  // footer: "", // HTML fragment or string to add to the footer
+  // toc: true, // table of contents configuration
+};
