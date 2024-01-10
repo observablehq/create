@@ -1,0 +1,14 @@
+export function resize(run) {
+  const div = Object.assign(document.createElement("DIV"), {style: "position: relative; height: 100%;"});
+  const observer = new ResizeObserver(([entry]) => {
+    const {width, height} = entry.contentRect;
+    while (div.lastChild) div.lastChild.remove();
+    if (width > 0) {
+      const child = run(width, height);
+      if (run.length !== 1 && child?.style) child.style.position = "absolute"; // prevent feedback loop if height is used
+      div.append(child);
+    }
+  });
+  observer.observe(div);
+  return div;
+}
