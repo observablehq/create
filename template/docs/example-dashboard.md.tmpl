@@ -51,13 +51,16 @@ const countLaunchesByStateId = id => launchHistory.filter(d => d.stateId === id)
     width,
     title: "Launches Over the Years",
     height: 300,
-    x: { label: null, interval: "year" },
+    x: { label: "Year", interval: "year" },
     y: { grid: true, label: "Lunches" },
-    color: { legend: true },
+    color: { legend: true, label: "State" },
     marks: [
       Plot.barY(
         launchHistory,
-        Plot.groupX({ y: "count" }, { x: d => new Date(d.date), fill: "state" })
+        Plot.groupX(
+          { y: "count" },
+          { x: d => new Date(d.date), fill: "state", tip: true }
+        )
       ),
       Plot.ruleY([0])
     ]
@@ -73,12 +76,15 @@ const countLaunchesByStateId = id => launchHistory.filter(d => d.stateId === id)
     marginLeft: 65,
     height: 300,
     x: { grid: true, label: "Launches" },
-    y: { label: "Launch Vehicle Family" },
-    color: { legend: true },
+    y: { label: "Vehicle Family" },
+    color: { legend: true, label: "State" },
     marks: [
       Plot.barX(
         launchHistory,
-        Plot.groupY({ x: "count" }, { y: "family",  fill: "state", sort: { y: "x", reverse: true }})
+        Plot.groupY(
+          { x: "count" },
+          { y: "family",  fill: "state", tip: true, sort: { y: "x", reverse: true }}
+        )
       ),
       Plot.ruleX([0])
     ]
