@@ -59,7 +59,7 @@ const countLaunchesByStateId = id => launchHistory.filter(d => d.stateId === id)
         launchHistory,
         Plot.groupX(
           { y: "count" },
-          { x: d => new Date(d.date), fill: "state", tip: true }
+          { x: d => new Date(d.date), fill: "state", tip: {format: {x: false}} }
         )
       ),
       Plot.ruleY([0])
