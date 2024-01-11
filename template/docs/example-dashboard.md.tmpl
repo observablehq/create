@@ -52,7 +52,7 @@ const countLaunchesByStateId = id => launchHistory.filter(d => d.stateId === id)
     title: "Launches Over the Years",
     height: 300,
     x: { label: "Year", interval: "year" },
-    y: { grid: true, label: "Lunches" },
+    y: { grid: true, label: "Launches" },
     color: { legend: true, label: "State" },
     marks: [
       Plot.barY(
