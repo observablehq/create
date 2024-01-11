@@ -24,7 +24,7 @@ const launchVehicles = await fetch(LAUNCH_VEHICLES_URL)
 
 // construct map to lookup vehicle family from name
 
-const launchVehicleFamilyMap = launchVeicles
+const launchVehicleFamilyMap = launchVehicles
   .reduce((map, d) => ({...map, [d["#LV_Name"]]: d.LV_Family.trim()}), {});
 
 // untility functions
