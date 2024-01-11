@@ -17,9 +17,8 @@ import {resize} from "./components/resize.js";
 <!-- load and transform the data -->
 
 ```js
-const launchHistory = await FileAttachment("data/launchHistory.json")
-  .json()
-  .then(rows => rows.map(row => ({...row, date: new Date(row.date) })));
+const launchHistory = await FileAttachment("data/launchHistory.csv")
+  .csv({typed: true})
 const countLaunchesByStateId = id => launchHistory.filter(d => d.stateId === id).length;
 ```
 
