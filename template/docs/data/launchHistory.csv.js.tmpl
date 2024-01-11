@@ -35,7 +35,7 @@ const parseDate = dateString => new Date(
   dateString.split(" ").filter(d => d.length > 0).slice(0, 3).join(" ")
 );
 
-// load and parse lunch-log and trim down to smaller size
+// load and parse launch-log and trim down to smaller size
 
 const launchHistory = await fetch(LAUNCH_LOG_URL)
   .then(response => response.text())
