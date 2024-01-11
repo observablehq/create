@@ -32,14 +32,14 @@ async function init() {
     {
       type: "text",
       name: "projectName",
-      message: "Project name:",
+      message: "Project folder name:",
       initial: projectNameArg,
       validate: name => validateProjectName(projectDir, name),
     } satisfies PromptObject<"projectName">,
     {
       type: "text",
       name: "projectTitle",
-      message: "Formatted project title:",
+      message: "Project title (visible on the pages):",
       initial: toTitleCase,
       validate: validateProjectTitle,
     } satisfies PromptObject<"projectTitle">,
