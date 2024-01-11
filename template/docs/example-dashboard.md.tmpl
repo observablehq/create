@@ -18,7 +18,7 @@ import {resize} from "./components/resize.js";
 
 ```js
 const launchHistory = await FileAttachment("data/launchHistory.csv")
-  .json()
+  .csv()
   .then(rows => rows.map(row => ({...row, date: new Date(row.date) })));
 const countLaunchesByStateId = id => launchHistory.filter(d => d.stateId === id).length;
 ```

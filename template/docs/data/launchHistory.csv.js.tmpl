@@ -1,9 +1,13 @@
-// import { timeParse } from "d3-time-format";
-import * as d3a from "d3-array";
 import {tsvParse, csvFormat} from "d3-dsv";
 
+// data from J. McDowell: General Catalog of Artificial Space Objects.
+// https://planet4589.org/space/gcat
+
 const LAUNCH_LOG_URL = "https:planet4589.org/space/gcat/tsv/derived/launchlog.tsv";
-const LAUNCH_VHICLES_URL = "https://planet4589.org/space/gcat/tsv/tables/lv.tsv";
+const LAUNCH_VEHICLES_URL = "https://planet4589.org/space/gcat/tsv/tables/lv.tsv";
+
+// "top" vehicles and launching states
+
 const TOP_LAUNCH_VEHICLES = ["Falcon9","R-7","R-14","Thor","DF5","R-36","Proton","Titan","Zenit","Atlas"];
 const TOP_STATES_MAP = ({
   "US": "United States",
@@ -12,12 +16,18 @@ const TOP_STATES_MAP = ({
   "CN": "China"
 });
 
-const launchVeicles = await fetch(LAUNCH_VHICLES_URL)
-      .then(response => response.text())
-      .then(tsvParse);
+// load and parse launch vehicles
+
+const launchVeicles = await fetch(LAUNCH_VEHICLES_URL)
+  .then(response => response.text())
+  .then(tsvParse);
+
+// construct map to lookup vehicle family from name
 
 const launchVehicleFamilyMap = launchVeicles
-      .reduce((map, d) => ({...map, [d["#LV_Name"]]: d.LV_Family.trim()}), {});
+  .reduce((map, d) => ({...map, [d["#LV_Name"]]: d.LV_Family.trim()}), {});
+
+// untility functions
 
 const establishState = d => TOP_STATES_MAP[d] ?? "Other";
 const establishFamily = d => {
@@ -28,19 +38,23 @@ const parseDate = dateString => new Date(
   dateString.split(" ").filter(d => d.length > 0).slice(0, 3).join(" ")
 );
 
+// load and parse lunch log
+
 const launchLog = await fetch(LAUNCH_LOG_URL)
   .then(response => response.text())
   .then(tsvParse);
+
+// trim down log to smaller launch history
+
 const launchHistory = launchLog.map((d) => ({
-          date: parseDate(d.Launch_Date),
-          state: establishState(d.LVState),
-          stateId: d.LVState,
-          family: establishFamily(d.LV_Type)
-        }))
-      .filter((d) => !isNaN(d.date) && d.state !== undefined)
+  date: parseDate(d.Launch_Date),
+  state: establishState(d.LVState),
+  stateId: d.LVState,
+  family: establishFamily(d.LV_Type)
+})).filter((d) => !isNaN(d.date) && d.state !== undefined);
 
-console.log(JSON.stringify(launchHistory));
+// write out csv formatted data
 
-// process.stdout.write(csvFormat([1, 2, 3]));
+process.stdout.write(csvFormat(launchHistory));
 
 
