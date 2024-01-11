@@ -27,7 +27,7 @@ const launchVehicles = await fetch(LAUNCH_VEHICLES_URL)
 const launchVehicleFamilyMap = launchVehicles
   .reduce((map, d) => ({...map, [d["#LV_Name"]]: d.LV_Family.trim()}), {});
 
-// untility functions
+// utility functions
 
 const establishState = d => TOP_STATES_MAP[d] ?? "Other";
 const establishFamily = d => {
