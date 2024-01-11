@@ -28,14 +28,14 @@ async function init() {
     {
       type: "text",
       name: "projectName",
-      message: "Project name:",
+      message: "Project folder name:",
       initial: projectNameArg,
       validate: (name) => validateProjectName(projectDir, name)
     },
     {
       type: "text",
       name: "projectTitle",
-      message: "Formatted project title:",
+      message: "Project title (visible on the pages):",
       initial: toTitleCase,
       validate: validateProjectTitle
     }
