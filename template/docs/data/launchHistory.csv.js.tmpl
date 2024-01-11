@@ -1,0 +1,46 @@
+// import { timeParse } from "d3-time-format";
+import * as d3a from "d3-array";
+import {tsvParse, csvFormat} from "d3-dsv";
+
+const LAUNCH_LOG_URL = "https:planet4589.org/space/gcat/tsv/derived/launchlog.tsv";
+const LAUNCH_VHICLES_URL = "https://planet4589.org/space/gcat/tsv/tables/lv.tsv";
+const TOP_LAUNCH_VEHICLES = ["Falcon9","R-7","R-14","Thor","DF5","R-36","Proton","Titan","Zenit","Atlas"];
+const TOP_STATES_MAP = ({
+  "US": "United States",
+  "SU": "Soviet Union",
+  "RU": "Russia",
+  "CN": "China"
+});
+
+const launchVeicles = await fetch(LAUNCH_VHICLES_URL)
+      .then(response => response.text())
+      .then(tsvParse);
+
+const launchVehicleFamilyMap = launchVeicles
+      .reduce((map, d) => ({...map, [d["#LV_Name"]]: d.LV_Family.trim()}), {});
+
+const establishState = d => TOP_STATES_MAP[d] ?? "Other";
+const establishFamily = d => {
+  const family = launchVehicleFamilyMap[d];
+  return TOP_LAUNCH_VEHICLES.includes(family) ? family : "Other";
+}
+const parseDate = dateString => new Date(
+  dateString.split(" ").filter(d => d.length > 0).slice(0, 3).join(" ")
+);
+
+const launchLog = await fetch(LAUNCH_LOG_URL)
+  .then(response => response.text())
+  .then(tsvParse);
+const launchHistory = launchLog.map((d) => ({
+          date: parseDate(d.Launch_Date),
+          state: establishState(d.LVState),
+          stateId: d.LVState,
+          family: establishFamily(d.LV_Type)
+        }))
+      .filter((d) => !isNaN(d.date) && d.state !== undefined)
+
+console.log(JSON.stringify(launchHistory));
+
+// process.stdout.write(csvFormat([1, 2, 3]));
+
+
