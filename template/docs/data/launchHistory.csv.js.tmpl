@@ -18,7 +18,7 @@ const TOP_STATES_MAP = ({
 
 // load and parse launch vehicles
 
-const launchVeicles = await fetch(LAUNCH_VEHICLES_URL)
+const launchVehicles = await fetch(LAUNCH_VEHICLES_URL)
   .then(response => response.text())
   .then(tsvParse);
 
