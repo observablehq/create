@@ -35,20 +35,17 @@ const parseDate = dateString => new Date(
   dateString.split(" ").filter(d => d.length > 0).slice(0, 3).join(" ")
 );
 
-// load and parse lunch log
+// load and parse lunch-log and trim down to smaller size
 
-const launchLog = await fetch(LAUNCH_LOG_URL)
+const launchHistory = await fetch(LAUNCH_LOG_URL)
   .then(response => response.text())
-  .then(tsvParse);
-
-// trim down log to smaller launch history
-
-const launchHistory = launchLog.map((d) => ({
-  date: parseDate(d.Launch_Date),
-  state: establishState(d.LVState),
-  stateId: d.LVState,
-  family: establishFamily(d.LV_Type)
-})).filter((d) => !isNaN(d.date) && d.state !== undefined);
+  .then(rows => tsvParse(rows, (d) => ({
+       date: parseDate(d.Launch_Date),
+       state: establishState(d.LVState),
+       stateId: d.LVState,
+       family: establishFamily(d.LV_Type)
+    })).filter((d) => !isNaN(d.date) && d.state !== undefined)
+  );
 
 // write out csv formatted data
 
