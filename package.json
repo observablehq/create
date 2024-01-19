@@ -2,38 +2,26 @@
   "name": "@observablehq/create",
   "version": "0.0.1",
   "license": "ISC",
+  "type": "module",
   "repository": {
     "type": "git",
     "url": "git+https://github.com/observablehq/create.git"
   },
-  "type": "module",
-  "publishConfig": {
-    "registry": "https://npm.pkg.github.com"
-  },
-  "main": "./dist/main.cjs",
   "bin": {
-    "observablehq-create": "dist/main.cjs"
-  },
-  "scripts": {
-    "build": "unbuild",
-    "prepublishOnly": "npm run build"
+    "observablehq-create": "bin/observable-create.ts",
+    "observable-create": "bin/observable-create.ts"
   },
   "files": [
-    "template/**/*.tmpl",
-    "dist"
+    "bin/observable-create.ts"
   ],
-  "devDependencies": {
-    "@tsconfig/node-lts": "^18.12.5",
-    "@tsconfig/node-lts-strictest-esm": "^18.12.1",
-    "@tsconfig/recommended": "^1.0.3",
-    "@tsconfig/strictest": "^2.0.2",
-    "@types/minimist": "^1.2.3",
-    "@types/node": "^20.8.4",
-    "@types/prompts": "^2.4.5",
-    "typescript": "^5.2.2",
-    "unbuild": "^2.0.0"
+  "scripts": {
+    "observable-create": "bin/observable-create.ts"
   },
   "dependencies": {
-    "prompts": "^2.4.2"
+    "@observablehq/cli": "https://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@github.com/observablehq/cli#main",
+    "tsx": "~4.2.1"
+  },
+  "devDependencies": {
+    "@types/node": "^20.11.5"
   }
 }
