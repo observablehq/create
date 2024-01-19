@@ -229,7 +229,7 @@
 
 "@observablehq/cli@https://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@github.com/observablehq/cli#main":
   version "0.0.50"
-  resolved "https://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@github.com/observablehq/cli#33eb92bbbcf8c82e8768cfc445833dd50fee7cb1"
+  resolved "https://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@github.com/observablehq/cli#33f81775579221dc56dc0aafe9110db8ad6a2fcf"
   dependencies:
     "@observablehq/inputs" "^0.10.6"
     "@observablehq/runtime" "^5.9.4"

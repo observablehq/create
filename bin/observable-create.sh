@@ -1,3 +1,3 @@
 #!/bin/bash
 
-observable create "$@"
+$(dirname $(dirname $0))/node_modules/.bin/observable create "$@"
