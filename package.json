@@ -2,21 +2,23 @@
   "name": "@observablehq/create",
   "version": "0.0.1",
   "license": "ISC",
+  "type": "module",
   "repository": {
     "type": "git",
     "url": "git+https://github.com/observablehq/create.git"
   },
   "bin": {
-    "observablehq-create": "bin/observable-create.sh",
-    "observable-create": "bin/observable-create.sh"
+    "observablehq-create": "bin/observable-create.js",
+    "observable-create": "bin/observable-create.js"
   },
   "files": [
-    "bin/observable-create.sh"
+    "bin/observable-create.js"
   ],
   "scripts": {
-    "observable-create": "bin/observable-create.sh"
+    "observable-create": "bin/observable-create.js"
   },
   "dependencies": {
-    "@observablehq/cli": "https://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@github.com/observablehq/cli#main"
+    "@observablehq/cli": "https://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@github.com/observablehq/cli#main",
+    "tsx": "~4.2.1"
   }
 }
