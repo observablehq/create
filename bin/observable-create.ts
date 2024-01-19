@@ -2,4 +2,4 @@
 
 process.argv.push("create");
 
-import("@observablehq/cli/bin/observable.ts");
+import("@observablehq/cli/bin/observable.js");

@@ -8,17 +8,20 @@
     "url": "git+https://github.com/observablehq/create.git"
   },
   "bin": {
-    "observablehq-create": "bin/observable-create.js",
-    "observable-create": "bin/observable-create.js"
+    "observablehq-create": "bin/observable-create.ts",
+    "observable-create": "bin/observable-create.ts"
   },
   "files": [
-    "bin/observable-create.js"
+    "bin/observable-create.ts"
   ],
   "scripts": {
-    "observable-create": "bin/observable-create.js"
+    "observable-create": "bin/observable-create.ts"
   },
   "dependencies": {
     "@observablehq/cli": "https://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@github.com/observablehq/cli#main",
     "tsx": "~4.2.1"
+  },
+  "devDependencies": {
+    "@types/node": "^20.11.5"
   }
 }
