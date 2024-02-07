@@ -1,8 +1,11 @@
 {
   "name": "@observablehq/create",
-  "version": "0.0.1",
+  "version": "1.0.0-rc.1",
   "license": "ISC",
   "type": "module",
+  "publishConfig": {
+    "access": "public"
+  },
   "repository": {
     "type": "git",
     "url": "git+https://github.com/observablehq/create.git"
@@ -18,11 +21,8 @@
     "observable-create": "node bin/observable-create.js"
   },
   "dependencies": {
-    "@observablehq/cli": "https://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@github.com/observablehq/cli#main",
+    "@observablehq/framework": "latest",
     "tsx": "~4.2.1"
-  },
-  "devDependencies": {
-    "@types/node": "^20.11.5"
   },
   "engines": {
     "node": ">=20.6"
