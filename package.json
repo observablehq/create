@@ -12,7 +12,8 @@
   },
   "bin": {
     "observablehq-create": "bin/observable-create.js",
-    "observable-create": "bin/observable-create.js"
+    "observable-create": "bin/observable-create.js",
+    "create": "bin/observable-create.js"
   },
   "files": [
     "bin/observable-create.js"
