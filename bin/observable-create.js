@@ -1,6 +1,18 @@
-#!/usr/bin/env -S node --no-warnings=ExperimentalWarning
+#!/usr/bin/env node
 
-process.argv.splice(2, 0, "create");
+import { fileURLToPath } from "node:url";
+import crossSpawn from "cross-spawn";
 
-await import("tsx/esm");
-await import("@observablehq/framework/bin/observable.ts");
+crossSpawn.sync(
+  "node",
+  [
+    "--no-warnings=ExperimentalWarning",
+    "--import",
+    "tsx/esm",
+    fileURLToPath(
+      import.meta.resolve("@observablehq/framework/bin/observable.ts")
+    ),
+    ["create", ...process.argv.slice(2)],
+  ],
+  { stdio: "inherit" }
+);
