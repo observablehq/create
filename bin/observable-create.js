@@ -1,6 +1,5 @@
-#!/usr/bin/env -S node --no-warnings=ExperimentalWarning
+#!/usr/bin/env node
 
 process.argv.splice(2, 0, "create");
 
-await import("tsx/esm");
-await import("@observablehq/framework/bin/observable.ts");
+await import("@observablehq/framework/build/bin/observable.js");
