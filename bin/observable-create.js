@@ -14,5 +14,5 @@ crossSpawn.sync(
     ),
     ["create", ...process.argv.slice(2)],
   ],
-  { stdio: "inherit" }
+  {stdio: "inherit"}
 );

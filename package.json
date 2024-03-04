@@ -23,6 +23,7 @@
   },
   "dependencies": {
     "@observablehq/framework": "latest",
+    "cross-spawn": "^7.0.3",
     "tsx": "~4.2.1"
   },
   "engines": {
