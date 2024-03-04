@@ -4,8 +4,7 @@
   "license": "ISC",
   "type": "module",
   "publishConfig": {
-    "access": "public",
-    "tag": "next"
+    "access": "public"
   },
   "repository": {
     "type": "git",
